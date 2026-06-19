@@ -266,10 +266,8 @@
     <div style="max-width:1160px;margin:0 auto;padding:34px 22px 56px;">
       <div style="font-family:'Zen Maru Gothic','Noto Sans KR','Noto Sans Arabic',sans-serif;font-weight:900;font-size:1.25rem;">{{ L.footT }}</div>
       <div style="color:#a59f90;font-size:.84rem;font-weight:500;margin-top:8px;max-width:700px;">{{ L.footNoteA }}<a href="https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026" target="_blank" rel="noopener" style="color:#C6FF3D;text-decoration:none;font-weight:700;">FIFA.com</a>{{ L.footNoteB }}</div>
-      <div style="margin-top:18px;display:inline-flex;align-items:center;gap:10px;background:#231f17;border:2px solid #3a352a;border-radius:12px;padding:11px 15px;">
-        <span style="font-size:1.1rem;">🔄</span>
-        <span style="font-size:.8rem;color:#cfc9ba;font-weight:500;">{{ L.footUpd }}</span>
-      </div>
+      <div style="margin-top:10px;font-size:.78rem;color:#7a7468;font-weight:600;min-height:0;">{{ lastUpdatedLine }}</div>
+
     </div>
   </footer>
 </div>
@@ -801,6 +799,18 @@ class Component extends DCLogic {
         scorers: sc ? ('⚽ '+sc) : '', scorerWrapStyle: sc ? "margin-top:9px;font-size:.74rem;color:#6a6452;font-weight:500;line-height:1.45;" : "display:none;" };
     });
 
+    const metaInfo = this.state.data._meta;
+    const updLabels = {ja:'データ最終更新',en:'Data updated',es:'Datos actualizados',pt:'Dados atualizados',de:'Daten aktualisiert',ko:'데이터 최종 업데이트',ar:'آخر تحديث'};
+    let lastUpdatedLine = '';
+    if (metaInfo && metaInfo.updatedAt) {
+      try {
+        const fmt = new Intl.DateTimeFormat(lang==='ar'?'ar-EG':lang, {month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date(metaInfo.updatedAt));
+        lastUpdatedLine = '🔄 ' + (updLabels[lang]||'Updated') + ': ' + fmt;
+      } catch(e) { lastUpdatedLine = '🔄 ' + (updLabels[lang]||'Updated') + ': ' + String(metaInfo.updatedAt).slice(0,16).replace('T',' '); }
+    }
+    const hasUpdated = !!lastUpdatedLine;
+
+
     const L = {
       badge:base.badge, h1a:base.h1a, h1b:base.h1b, lede:base.lede,
       sGoals:base.sGoals, sPlayed:base.sPlayed, sAvg:base.sAvg, sTeams:base.sTeams,
@@ -809,7 +819,8 @@ class Component extends DCLogic {
       reportsH:base.reportsH, groupsH:base.groupsH, groupsS:base.groupsS,
       standingsTitle: base.stPre + active + base.stSuf, matchesT:base.matchesT,
       legW:base.legW, legD:base.legD, legL:base.legL, legQ:base.legQ,
-      footT:base.footT, footNoteA:base.footNoteA, footNoteB:base.footNoteB, footUpd:base.footUpd
+      footT:base.footT, footNoteA:base.footNoteA, footNoteB:base.footNoteB, footUpd:base.footUpd,
+      lastUpdatedLine
     };
 
     return {
@@ -818,10 +829,12 @@ class Component extends DCLogic {
       tickerLoop, tickerAnim: liveTicker ? 'wc-scroll 44s linear infinite' : 'none',
       watch, polls, showPredictions, showCharts,
       scorerBars, groupBars, columns, reports,
-      groupTabs, standings, groupMatches, hdr: base.hdr, L
+      groupTabs, standings, groupMatches, hdr: base.hdr, L, hasUpdated, lastUpdatedLine
     };
   }
 }
+
+
 </script>
 </body>
 </html>
