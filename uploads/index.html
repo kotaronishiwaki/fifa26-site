@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>FIFA ワールドカップ26 を振り返る</title>
+<meta name="description" content="FIFA ワールドカップ2026 グループステージの試合結果・順位・スタッツを楽しく振り返るサイト。" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800;900&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --pitch:#07182A;
+    --surface:#0E2740;
+    --surface-2:#12314F;
+    --line:rgba(255,255,255,.09);
+    --lime:#C6FF3D;
+    --gold:#FFC94A;
+    --coral:#FF5E62;
+    --sky:#5BD6FF;
+    --chalk:#EAF2EC;
+    --mist:#93A7BC;
+    --rising: 0;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(198,255,61,.10), transparent 60%),
+      radial-gradient(900px 500px at -5% 10%, rgba(91,214,255,.08), transparent 55%),
+      var(--pitch);
+    color:var(--chalk);
+    font-family:"Inter",system-ui,sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+  .mono{font-family:"Space Mono",monospace;font-variant-numeric:tabular-nums}
+  .eyebrow{
+    font-family:"Archivo",sans-serif;font-weight:800;letter-spacing:.22em;
+    text-transform:uppercase;font-size:.72rem;color:var(--lime);
+  }
+  h1,h2,h3{font-family:"Archivo",sans-serif;letter-spacing:-.01em;margin:0}
+
+  /* ---------- LED ribbon ---------- */
+  .ribbon{
+    border-bottom:1px solid var(--line);
+    background:linear-gradient(180deg, rgba(7,24,42,.6), rgba(7,24,42,0));
+    overflow:hidden;position:relative;
+  }
+  .ribbon::before,.ribbon::after{
+    content:"";position:absolute;top:0;bottom:0;width:60px;z-index:2;pointer-events:none;
+  }
+  .ribbon::before{left:0;background:linear-gradient(90deg,var(--pitch),transparent)}
+  .ribbon::after{right:0;background:linear-gradient(270deg,var(--pitch),transparent)}
+  .ticker{display:flex;gap:34px;width:max-content;padding:10px 0;animation:scroll 46s linear infinite}
+  .ticker span{font-size:.82rem;color:var(--mist);white-space:nowrap;display:flex;gap:8px;align-items:center}
+  .ticker b{color:var(--chalk);font-weight:600}
+  .ticker .sc{color:var(--lime)}
+  @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  /* ---------- hero ---------- */
+  header.hero{padding:54px 0 30px;position:relative}
+  .hosts{display:flex;gap:6px;font-size:1.1rem;margin-bottom:18px}
+  header.hero h1{
+    font-weight:900;font-size:clamp(2.4rem,7vw,4.6rem);line-height:.95;text-transform:uppercase;
+  }
+  header.hero h1 .yr{
+    color:var(--pitch);background:var(--lime);padding:0 .12em;border-radius:6px;
+    display:inline-block;transform:rotate(-2deg);
+  }
+  .lede{max-width:560px;color:var(--mist);margin:18px 0 0;font-size:1.02rem}
+
+  .scoreboard{
+    margin-top:34px;display:grid;grid-template-columns:repeat(4,1fr);gap:14px;
+  }
+  .stat{
+    background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px 16px;
+    position:relative;overflow:hidden;
+  }
+  .stat .num{font-family:"Space Mono",monospace;font-size:clamp(1.6rem,4.5vw,2.5rem);font-weight:700;line-height:1}
+  .stat .lab{color:var(--mist);font-size:.78rem;margin-top:8px;text-transform:uppercase;letter-spacing:.08em}
+  .stat:nth-child(1) .num{color:var(--lime)}
+  .stat:nth-child(2) .num{color:var(--chalk)}
+  .stat:nth-child(3) .num{color:var(--gold)}
+  .stat:nth-child(4) .num{color:var(--sky)}
+
+  /* ---------- section frame ---------- */
+  section{padding:46px 0;border-top:1px solid var(--line)}
+  .head-row{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:24px;flex-wrap:wrap}
+  section h2{font-weight:800;font-size:clamp(1.5rem,3.5vw,2.1rem)}
+  .sub{color:var(--mist);font-size:.9rem}
+
+  /* ---------- highlights ---------- */
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .hl{
+    background:linear-gradient(180deg,var(--surface),var(--surface-2));
+    border:1px solid var(--line);border-radius:18px;padding:20px;position:relative;
+    transition:transform .18s ease, border-color .18s ease;
+  }
+  .hl:hover{transform:translateY(-4px);border-color:rgba(198,255,61,.4)}
+  .hl .tag{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--lime)}
+  .hl.gold .tag{color:var(--gold)} .hl.coral .tag{color:var(--coral)} .hl.sky .tag{color:var(--sky)}
+  .hl .big{font-family:"Archivo";font-weight:800;font-size:1.45rem;margin:10px 0 6px;line-height:1.1}
+  .hl p{margin:0;color:var(--mist);font-size:.9rem}
+
+  /* ---------- scorers ---------- */
+  .scorers{display:grid;gap:10px}
+  .srow{
+    display:grid;grid-template-columns:36px 1fr auto;align-items:center;gap:14px;
+    background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;
+  }
+  .srow .rk{font-family:"Space Mono";color:var(--mist);font-size:.95rem}
+  .srow.lead{border-color:rgba(255,201,74,.5);background:linear-gradient(90deg,rgba(255,201,74,.12),var(--surface))}
+  .srow.lead .rk{color:var(--gold)}
+  .srow .who{font-weight:600}
+  .srow .who small{color:var(--mist);font-weight:400;margin-left:6px}
+  .goals{font-family:"Space Mono";font-weight:700;display:flex;align-items:center;gap:8px}
+  .goals .balls{letter-spacing:1px}
+  .goals .n{background:var(--lime);color:var(--pitch);border-radius:7px;padding:1px 9px}
+  .srow.lead .goals .n{background:var(--gold)}
+
+  /* ---------- groups ---------- */
+  .tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+  .tab{
+    font-family:"Archivo";font-weight:800;font-size:.95rem;
+    background:var(--surface);color:var(--mist);border:1px solid var(--line);
+    border-radius:10px;padding:9px 14px;cursor:pointer;transition:all .15s ease;min-width:46px;
+  }
+  .tab:hover{color:var(--chalk);border-color:rgba(255,255,255,.25)}
+  .tab.active{background:var(--lime);color:var(--pitch);border-color:var(--lime)}
+  .tab.jp::after{content:"🇯🇵";margin-left:5px;font-size:.85em}
+
+  .group-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:22px;align-items:start}
+  .panel-title{font-family:"Archivo";font-weight:800;font-size:1.05rem;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .panel-title .dot{width:9px;height:9px;border-radius:50%;background:var(--lime)}
+
+  table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  thead th{font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;color:var(--mist);font-weight:600;padding:10px 8px;text-align:center;background:rgba(255,255,255,.03)}
+  thead th.tl{text-align:left;padding-left:14px}
+  tbody td{padding:11px 8px;text-align:center;border-top:1px solid var(--line);font-size:.9rem}
+  tbody td.team{text-align:left;padding-left:14px;font-weight:600;white-space:nowrap}
+  tbody td.pts{font-family:"Space Mono";font-weight:700;color:var(--lime)}
+  tbody tr.q td{background:rgba(198,255,61,.06)}
+  tbody tr.q td:first-child{box-shadow:inset 3px 0 0 var(--lime)}
+  .pos{font-family:"Space Mono";color:var(--mist)}
+  .form{display:inline-flex;gap:3px;margin-left:8px;vertical-align:middle}
+  .form i{width:7px;height:7px;border-radius:2px;display:inline-block}
+  .w{background:var(--lime)} .d{background:var(--gold)} .l{background:var(--coral)}
+
+  .matches{display:grid;gap:10px}
+  .match{
+    background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;
+  }
+  .match .date{font-size:.7rem;color:var(--mist);letter-spacing:.05em;margin-bottom:7px}
+  .mline{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px}
+  .mteam{display:flex;align-items:center;gap:8px;font-weight:600;font-size:.95rem}
+  .mteam.away{justify-content:flex-end;text-align:right}
+  .mteam.win{color:var(--lime)}
+  .mscore{font-family:"Space Mono";font-weight:700;font-size:1.05rem;background:var(--pitch);border:1px solid var(--line);border-radius:8px;padding:3px 11px;white-space:nowrap}
+  .scorerline{margin-top:9px;font-size:.74rem;color:var(--mist);line-height:1.45}
+  .scorerline b{color:var(--chalk);font-weight:600}
+
+  .legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:14px;font-size:.74rem;color:var(--mist)}
+  .legend span{display:flex;align-items:center;gap:6px}
+  .legend i{width:9px;height:9px;border-radius:2px;display:inline-block}
+
+  /* ---------- footer ---------- */
+  footer{border-top:1px solid var(--line);padding:34px 0 60px;color:var(--mist);font-size:.82rem}
+  footer a{color:var(--lime);text-decoration:none}
+  footer .note{margin-top:8px;max-width:640px}
+
+  @media(max-width:820px){
+    .scoreboard{grid-template-columns:repeat(2,1fr)}
+    .cards{grid-template-columns:1fr}
+    .group-grid{grid-template-columns:1fr}
+  }
+  @media(prefers-reduced-motion:reduce){
+    .ticker{animation:none}
+    .hl{transition:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- LED ribbon -->
+<div class="ribbon">
+  <div class="wrap">
+    <div class="ticker" id="ticker"></div>
+  </div>
+</div>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">USA · Canada · Mexico — 2026年6月11日 開幕</div>
+    <div class="hosts">🇺🇸 🇨🇦 🇲🇽</div>
+    <h1>FIFA ワールドカップ<br><span class="yr">26</span> を振り返る</h1>
+    <p class="lede">48チームで初開催。グループステージの序盤戦を、結果・順位・スタッツでまるごと振り返ろう。メッシのハットトリック、ドイツの7発、そして日本の劇的ドロー——もう全部見たかな？</p>
+
+    <div class="scoreboard">
+      <div class="stat"><div class="num" data-count="79">0</div><div class="lab">総ゴール数</div></div>
+      <div class="stat"><div class="num" data-count="26">0</div><div class="lab">消化試合</div></div>
+      <div class="stat"><div class="num" data-count="3.0" data-dec="1">0</div><div class="lab">1試合平均得点</div></div>
+      <div class="stat"><div class="num" data-count="48">0</div><div class="lab">参加チーム</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- HIGHLIGHTS -->
+<section>
+  <div class="wrap">
+    <div class="head-row">
+      <h2>序盤のハイライト</h2>
+      <div class="sub">6月11日〜18日／グループ第1節を中心に</div>
+    </div>
+    <div class="cards" id="highlights"></div>
+  </div>
+</section>
+
+<!-- TOP SCORERS -->
+<section>
+  <div class="wrap">
+    <div class="head-row">
+      <h2>得点ランキング</h2>
+      <div class="sub">ゴールデンブーツ争い（6月時点・非公式集計）</div>
+    </div>
+    <div class="scorers" id="scorers"></div>
+  </div>
+</section>
+
+<!-- GROUPS -->
+<section>
+  <div class="wrap">
+    <div class="head-row">
+      <h2>グループ別 結果 &amp; 順位表</h2>
+      <div class="sub">上位2チーム＋各組3位の上位8チームが32強へ</div>
+    </div>
+    <div class="tabs" id="tabs"></div>
+    <div class="group-grid">
+      <div>
+        <div class="panel-title"><span class="dot"></span>順位表</div>
+        <div id="standings"></div>
+        <div class="legend">
+          <span><i class="w"></i>勝</span>
+          <span><i class="d"></i>分</span>
+          <span><i class="l"></i>敗</span>
+          <span><i style="background:var(--lime);opacity:.5"></i>突破圏（上位2位）</span>
+        </div>
+      </div>
+      <div>
+        <div class="panel-title"><span class="dot" style="background:var(--gold)"></span>試合結果</div>
+        <div class="matches" id="matches"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <strong style="color:var(--chalk)">FIFA ワールドカップ26 を振り返る</strong> — 非公式のファンメイドサイト
+    <div class="note">
+      データはグループ第1節（＋コロンビア戦）までの結果を反映した手動更新版です。最新スコアは公式の
+      <a href="https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026" target="_blank" rel="noopener">FIFA</a>
+      でご確認を。Netlify などにそのままアップロードして公開できます。
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ---------------- DATA ---------------- */
+const T = {
+  MEX:["メキシコ","🇲🇽"], KOR:["韓国","🇰🇷"], RSA:["南アフリカ","🇿🇦"], CZE:["チェコ","🇨🇿"],
+  CAN:["カナダ","🇨🇦"], BIH:["ボスニア","🇧🇦"], SUI:["スイス","🇨🇭"], QAT:["カタール","🇶🇦"],
+  BRA:["ブラジル","🇧🇷"], MAR:["モロッコ","🇲🇦"], SCO:["スコットランド","🏴󠁧󠁢󠁳󠁣󠁴󠁿"], HAI:["ハイチ","🇭🇹"],
+  USA:["アメリカ","🇺🇸"], AUS:["オーストラリア","🇦🇺"], PAR:["パラグアイ","🇵🇾"], TUR:["トルコ","🇹🇷"],
+  GER:["ドイツ","🇩🇪"], CIV:["コートジボワール","🇨🇮"], ECU:["エクアドル","🇪🇨"], CUW:["キュラソー","🇨🇼"],
+  NED:["オランダ","🇳🇱"], SWE:["スウェーデン","🇸🇪"], JPN:["日本","🇯🇵"], TUN:["チュニジア","🇹🇳"],
+  BEL:["ベルギー","🇧🇪"], IRN:["イラン","🇮🇷"], EGY:["エジプト","🇪🇬"], NZL:["ニュージーランド","🇳🇿"],
+  ESP:["スペイン","🇪🇸"], URU:["ウルグアイ","🇺🇾"], KSA:["サウジアラビア","🇸🇦"], CPV:["カーボベルデ","🇨🇻"],
+  FRA:["フランス","🇫🇷"], NOR:["ノルウェー","🇳🇴"], SEN:["セネガル","🇸🇳"], IRQ:["イラク","🇮🇶"],
+  ARG:["アルゼンチン","🇦🇷"], ALG:["アルジェリア","🇩🇿"], AUT:["オーストリア","🇦🇹"], JOR:["ヨルダン","🇯🇴"],
+  POR:["ポルトガル","🇵🇹"], COL:["コロンビア","🇨🇴"], UZB:["ウズベキスタン","🇺🇿"], COD:["コンゴ民主","🇨🇩"],
+  ENG:["イングランド","🏴󠁧󠁢󠁥󠁮󠁧󠁿"], GHA:["ガーナ","🇬🇭"], CRO:["クロアチア","🇭🇷"], PAN:["パナマ","🇵🇦"]
+};
+// standings row: [code, P,W,D,L,GF,GA,Pts, form]
+// match: [date, home, hs, away, as, homeScorers, awayScorers]
+const GROUPS = {
+ A:{teams:[["MEX",1,1,0,0,2,0,3,"W"],["KOR",1,1,0,0,2,1,3,"W"],["CZE",1,0,0,1,1,2,0,"L"],["RSA",1,0,0,1,0,2,0,"L"]],
+    matches:[["6/11","MEX",2,"RSA",0,"キニョネス, J.ヒメネス",""],
+             ["6/12","KOR",2,"CZE",1,"ファン・インボム, オ・ヒョンギュ","クレイチー"]]},
+ B:{teams:[["CAN",1,0,1,0,1,1,1,"D"],["BIH",1,0,1,0,1,1,1,"D"],["SUI",1,0,1,0,1,1,1,"D"],["QAT",1,0,1,0,1,1,1,"D"]],
+    matches:[["6/12","CAN",1,"BIH",1,"ラリン","ルキッチ"],
+             ["6/13","SUI",1,"QAT",1,"エンボロ (PK)","コウキ"]]},
+ C:{teams:[["SCO",1,1,0,0,1,0,3,"W"],["BRA",1,0,1,0,1,1,1,"D"],["MAR",1,0,1,0,1,1,1,"D"],["HAI",1,0,0,1,0,1,0,"L"]],
+    matches:[["6/12","HAI",0,"SCO",1,"","マッギン 28'"],
+             ["6/13","BRA",1,"MAR",1,"ヴィニシウス Jr","サイバリ"]]},
+ D:{teams:[["USA",1,1,0,0,4,1,3,"W"],["AUS",1,1,0,0,2,0,3,"W"],["TUR",1,0,0,1,0,2,0,"L"],["PAR",1,0,0,1,1,4,0,"L"]],
+    matches:[["6/12","USA",4,"PAR",1,"ボバディジャ(OG), バログン×2, レイナ","マウリシオ"],
+             ["6/13","AUS",2,"TUR",0,"イランクンダ 27', メトカーフ 75'",""]]},
+ E:{teams:[["GER",1,1,0,0,7,1,3,"W"],["CIV",1,1,0,0,1,0,3,"W"],["ECU",1,0,0,1,0,1,0,"L"],["CUW",1,0,0,1,1,7,0,"L"]],
+    matches:[["6/14","GER",7,"CUW",1,"ンメチャ, シュロッターベック, ハフェルツ(PK), ムシアラ, ブラウン, ウンダフ 他","コメネンシア"],
+             ["6/14","CIV",1,"ECU",0,"ディアロ",""]]},
+ F:{teams:[["SWE",1,1,0,0,5,1,3,"W"],["NED",1,0,1,0,2,2,1,"D"],["JPN",1,0,1,0,2,2,1,"D"],["TUN",1,0,0,1,1,5,0,"L"]],
+    matches:[["6/14","NED",2,"JPN",2,"ファン・ダイク, サマーヴィル","中村, 鎌田 88'"],
+             ["6/14","SWE",5,"TUN",1,"イサク, ヨケレス, アヤリ×2, スバンベリ","レキク"]]},
+ G:{teams:[["BEL",1,0,1,0,1,1,1,"D"],["EGY",1,0,1,0,1,1,1,"D"],["IRN",1,0,1,0,2,2,1,"D"],["NZL",1,0,1,0,2,2,1,"D"]],
+    matches:[["6/15","BEL",1,"EGY",1,"ハニー(OG)","アシュール"],
+             ["6/15","IRN",2,"NZL",2,"レザイアン, モヘビ","ジャスト×2"]]},
+ H:{teams:[["URU",1,0,1,0,0,0,1,"D"],["KSA",1,0,1,0,0,0,1,"D"],["ESP",1,0,1,0,1,1,1,"D"],["CPV",1,0,1,0,1,1,1,"D"]],
+    matches:[["6/15","ESP",0,"CPV",0,"",""],
+             ["6/15","KSA",1,"URU",1,"アル・アムリ","M.アラウホ"]]},
+ I:{teams:[["NOR",1,1,0,0,4,1,3,"W"],["FRA",1,1,0,0,3,1,3,"W"],["IRQ",1,0,0,1,1,4,0,"L"],["SEN",1,0,0,1,1,3,0,"L"]],
+    matches:[["6/16","FRA",3,"SEN",1,"オリーズ, ムバッペ×2","ンバイ"],
+             ["6/16","IRQ",1,"NOR",4,"フセイン","ハーランド×2, オスティゴール, OG"]]},
+ J:{teams:[["ARG",1,1,0,0,3,0,3,"W"],["AUT",1,1,0,0,3,1,3,"W"],["JOR",1,0,0,1,1,3,0,"L"],["ALG",1,0,0,1,0,3,0,"L"]],
+    matches:[["6/16","ARG",3,"ALG",0,"メッシ×3",""],
+             ["6/17","AUT",3,"JOR",1,"シュミット, OG, アルナウトヴィッチ","オルワン"]]},
+ K:{teams:[["COL",1,1,0,0,3,1,3,"W"],["POR",1,0,1,0,1,1,1,"D"],["COD",1,0,1,0,1,1,1,"D"],["UZB",1,0,0,1,1,3,0,"L"]],
+    matches:[["6/17","POR",1,"COD",1,"J.ネヴェス","ウィサ"],
+             ["6/18","COL",3,"UZB",1,"ムニョス, L.ディアス, カンパス","ファイズラエフ"]]},
+ L:{teams:[["ENG",1,1,0,0,4,2,3,"W"],["GHA",1,1,0,0,1,0,3,"W"],["CRO",1,0,0,1,2,4,0,"L"],["PAN",1,0,0,1,0,1,0,"L"]],
+    matches:[["6/17","ENG",4,"CRO",2,"ケイン×2, ベリンガム, ラッシュフォード","バトゥリナ, ムサ"],
+             ["6/17","GHA",1,"PAN",0,"イレンキー",""]]}
+};
+
+const HIGHLIGHTS = [
+ {cls:"", tag:"最大スコア", big:"ドイツ 7–1 キュラソー", p:"ムシアラやハフェルツらが躍動。グループEで圧巻の大量得点、得失点差は大会トップの +6。"},
+ {cls:"coral", tag:"最大の波乱", big:"スペイン 0–0 カーボベルデ", p:"優勝候補の一角が、W杯初出場国にまさかの無得点ドロー。出だしからつまずいた。"},
+ {cls:"gold", tag:"ハットトリック", big:"メッシ、アルジェリア相手に3発", p:"王者アルゼンチンの主役は健在。1試合3ゴールで得点ランキングのトップに立った。"},
+ {cls:"sky", tag:"日本 🇯🇵", big:"オランダ 2–2 日本", p:"強豪相手に互角の打ち合い。鎌田が88分に劇的な同点弾を決め、勝ち点1を死守した。"},
+ {cls:"", tag:"デビュー弾", big:"ハーランド、W杯初舞台で2発", p:"ノルウェーが56年ぶりの本大会。イラクを4–1で下し、ハーランドが存在感を見せつけた。"},
+ {cls:"gold", tag:"得点王争い", big:"ケイン、2ゴールで先行", p:"イングランドはクロアチアと打ち合い4–2。ベリンガム、ラッシュフォードも続いた。"}
+];
+
+const SCORERS = [
+ ["メッシ", "ARG", 3],
+ ["バログン", "USA", 2],
+ ["ムバッペ", "FRA", 2],
+ ["ハーランド", "NOR", 2],
+ ["ケイン", "ENG", 2],
+ ["アヤリ", "SWE", 2]
+];
+
+/* ---------------- RENDER ---------------- */
+const flag = c => T[c] ? T[c][1] : "";
+const name = c => T[c] ? T[c][0] : c;
+
+// ticker
+(function(){
+  const items=[];
+  for(const g in GROUPS){GROUPS[g].matches.forEach(m=>{
+    items.push(`<span><b>${flag(m[1])} ${name(m[1])}</b> <i class="sc mono">${m[2]}-${m[4]}</i> <b>${name(m[3])} ${flag(m[3])}</b></span>`);
+  });}
+  const html = items.join("")+items.join("");
+  document.getElementById("ticker").innerHTML = html;
+})();
+
+// count up
+(function(){
+  const els=[...document.querySelectorAll("[data-count]")];
+  const reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
+  els.forEach(el=>{
+    const target=parseFloat(el.dataset.count), dec=+(el.dataset.dec||0);
+    if(reduce){el.textContent=target.toFixed(dec); if(target>=79)el.textContent="79+"; return;}
+    let t0=null, dur=1400;
+    function step(ts){
+      if(!t0)t0=ts; const p=Math.min((ts-t0)/dur,1);
+      const e=1-Math.pow(1-p,3);
+      let v=(target*e).toFixed(dec);
+      el.textContent = (target>=79 && p===1) ? "79+" : v;
+      if(p<1)requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  });
+})();
+
+// highlights
+document.getElementById("highlights").innerHTML = HIGHLIGHTS.map(h=>`
+  <div class="hl ${h.cls}">
+    <div class="tag">${h.tag}</div>
+    <div class="big">${h.big}</div>
+    <p>${h.p}</p>
+  </div>`).join("");
+
+// scorers
+document.getElementById("scorers").innerHTML = SCORERS.map((s,i)=>`
+  <div class="srow ${i===0?'lead':''}">
+    <div class="rk">${String(i+1).padStart(2,'0')}</div>
+    <div class="who">${flag(s[1])} ${s[0]} <small>${name(s[1])}</small></div>
+    <div class="goals"><span class="balls">${'⚽'.repeat(s[2])}</span><span class="n">${s[2]}</span></div>
+  </div>`).join("");
+
+// groups
+const tabsEl=document.getElementById("tabs");
+const standEl=document.getElementById("standings");
+const matchEl=document.getElementById("matches");
+const codes=Object.keys(GROUPS);
+
+function formBar(f){
+  return `<span class="form">${[...f].map(x=>`<i class="${x.toLowerCase()}"></i>`).join("")}</span>`;
+}
+
+function renderGroup(g){
+  const G=GROUPS[g];
+  // standings
+  let rows = G.teams.map((t,i)=>{
+    const q = i<2 ? "q":"";
+    return `<tr class="${q}">
+      <td class="pos">${i+1}</td>
+      <td class="team">${flag(t[0])} ${name(t[0])}${formBar(t[8])}</td>
+      <td>${t[1]}</td><td>${t[2]}</td><td>${t[3]}</td><td>${t[4]}</td>
+      <td>${t[5]}</td><td>${t[6]}</td><td>${(t[5]-t[6])>0?'+':''}${t[5]-t[6]}</td>
+      <td class="pts">${t[7]}</td></tr>`;
+  }).join("");
+  standEl.innerHTML = `<table>
+    <thead><tr>
+      <th>#</th><th class="tl">チーム</th><th>試</th><th>勝</th><th>分</th><th>敗</th><th>得</th><th>失</th><th>差</th><th>点</th>
+    </tr></thead><tbody>${rows}</tbody></table>`;
+
+  // matches
+  matchEl.innerHTML = G.matches.map(m=>{
+    const hw=m[2]>m[4], aw=m[4]>m[2];
+    const hsc=m[5]?`<b>${flag(m[1])} ${name(m[1])}:</b> ${m[5]}`:"";
+    const asc=m[6]?`<b>${flag(m[3])} ${name(m[3])}:</b> ${m[6]}`:"";
+    const sc=(hsc||asc)?`<div class="scorerline">${[hsc,asc].filter(Boolean).join(" ／ ")}</div>`:"";
+    return `<div class="match">
+      <div class="date">${m[0]}</div>
+      <div class="mline">
+        <div class="mteam ${hw?'win':''}">${flag(m[1])} ${name(m[1])}</div>
+        <div class="mscore">${m[2]} – ${m[4]}</div>
+        <div class="mteam away ${aw?'win':''}">${name(m[3])} ${flag(m[3])}</div>
+      </div>${sc}
+    </div>`;
+  }).join("");
+}
+
+tabsEl.innerHTML = codes.map(c=>`<button class="tab ${c==='F'?'jp':''}" data-g="${c}">${c}</button>`).join("");
+tabsEl.addEventListener("click",e=>{
+  const b=e.target.closest(".tab"); if(!b)return;
+  [...tabsEl.children].forEach(x=>x.classList.remove("active"));
+  b.classList.add("active");
+  renderGroup(b.dataset.g);
+});
+// default to Japan's group F
+tabsEl.querySelector('[data-g="F"]').classList.add("active");
+renderGroup("F");
+</script>
+</body>
+</html>
